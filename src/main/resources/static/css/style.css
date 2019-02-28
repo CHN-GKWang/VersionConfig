@@ -1,0 +1,58 @@
+.shadow {
+	margin-top: 1em;
+	margin-bottom: 1em; padding : 2em;
+	padding: 1em;
+	box-shadow: 8px 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0
+		rgba(0, 0, 0, 0.02);
+	-webkit-box-shadow: 8px 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0
+		rgba(0, 0, 0, 0.02);
+	-moz-box-shadow: 8px 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0
+		rgba(0, 0, 0, 0.02);
+	-o-box-shadow: 8px 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0
+		rgba(0, 0, 0, 0.02);
+	border: 1px solid #ddd;
+	padding: 2em;
+}
+.page{
+	
+	text-align:center;
+}
+#pageStyle {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border: 1px solid #CCC;
+	line-height: 32px;
+	text-align: center;
+	color: #999;
+	margin-top: 20px;
+	text-decoration: none;
+}
+#pageStyle:hover {
+	background-color: #CCC;
+}
+
+#pageStyle .active {
+	background-color: #0CF;
+	color: #ffffff;
+}
+
+#pageStyle1 {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border: 1px solid #CCC;
+	line-height: 32px;
+	text-align: center;
+	color: #999;
+	margin-top: 20px;
+	text-decoration: none;
+}
+#pageStyle1:hover {
+	background-color: #CCC;
+}
+
+#pageStyle1 .active {
+	background-color: #0CF;
+	color: #ffffff;
+}

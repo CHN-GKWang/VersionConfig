@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>配置管理发布</title>
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+<link th:href="@{/css/font-awesome.css}" rel="stylesheet">
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<!-- bootstrap tags CSS -->
+<link th:href="@{/css/jquery.tag-editor.css}" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap-select.css}" />
+<link th:href="@{/css/bootstrap-datetimepicker.min.css}"
+	rel="stylesheet">
+<link th:href="@{/css/toastr.css}" rel="stylesheet">
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<h2 style="text-align: center;">版本配置管理工具</h2>
+		<hr>
+		<div class="shadow">
+			<div class="form-group">
+				<span class="required">客户：</span>
+				<div class="btn-group">
+					<select class="selectpicker" data-style="btn-default"
+						data-live-search="true" id="customer">
+						<option>请选择客户</option>
+					</select> <select class="selectpicker" data-style="btn-default"
+						data-live-search="true" id="customerversion">
+						<option>请选择版本</option>
+					</select>
+				</div>
+				<button class="btn btn-default text-right"
+					style="float: right; margin-right: 50px" id="logout">
+					<i class="fa fa-sign-out " aria-hidden="true"></i> 退出
+				</button>
+				<button class="btn btn-default text-right" data-toggle="modal"
+					data-target="#myModal" style="float: right;">
+					<i class="fa fa-user-plus " aria-hidden="true"></i> 添加客户
+				</button>
+			</div>
+			<div class="form-group">
+				<span class="required">模式：</span>
+				<div class="btn-group">
+					<select class="selectpicker" data-style="btn-default"
+						data-live-search="true" id="ms">
+						<option value="0">请选择模式</option>
+						<option value="1">增量生成</option>
+						<option value="2">全量生成</option>
+					</select>
+				</div>
+				<div class="checkbox" id="hidecheck">
+					<label> <input type="checkbox" id="updateall">同时更新全量模块列表
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<span class="required">程序路径：</span>
+				<div class="btn-group">
+					<input type="text" class="form-control" id="lj">
+				</div>
+			</div>
+			<div class="form-group">
+				<span class="required">主版本号：</span>
+				<div class="btn-group">
+					<input type="text" id="versionpre" class="form-control"
+						value="/FA6.0/Platform" disabled="disabled"> <select
+						class="selectpicker" data-style="btn-default"
+						data-live-search="true" id="versionnum">
+						<option value="0">请选择主版本号</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="shadow">
+			<div class="form-group">
+				<span>模块列表</span>
+				<div class="btn-group">
+					<select class="selectpicker" data-style="btn-default"
+						data-live-search="true" id="one">
+						<option>/FA6.0</option>
+					</select> <select class="selectpicker" data-style="btn-default"
+						data-live-search="true" id="second">
+					</select>
+				</div>
+				<button class="btn btn-default text-right" id="addmkbtn">
+					<i class="fa fa-plus " aria-hidden="true"></i>添加模块
+				</button>
+				<button class="btn btn-default text-right" id="confirm">
+					<i class="fa fa-check " aria-hidden="true"></i>确定
+				</button>
+				<a href="gotodepen" id="gotodepena"><button
+						class="btn btn-default text-right"
+						style="float: right; margin-right: 50px" id="gotodepen">
+						<i class="fa fa-book " aria-hidden="true"></i> 维护模块依赖关系
+					</button></a>
+				<table class="table table-striped " id="dmklb">
+					<thead>
+						<tr>
+							<td>期货业务</td>
+							<td>版本号</td>
+							<td>路径</td>
+							<td>指定集成人</td>
+							<td>指定集成时间</td>
+							<td>备注</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<hr>
+		<div class="shadow">
+			<div class="form-group">
+				<button class="btn btn-default text-right" id="deleteconfirm">
+					<i class="fa fa-trash " aria-hidden="true"></i>删除确定
+				</button>
+			</div>
+			<div class="form-group">
+				<table class="table table-striped " id="mklb">
+					<thead>
+						<tr>
+							<td></td>
+							<td>模块列表</td>
+							<td>状态</td>
+							<td>发布状态</td>
+							<td>版本号</td>
+							<td>上个版本号</td>
+							<td>路径</td>
+							<td>集成人</td>
+							<td>集成时间</td>
+							<td>发布人</td>
+							<td>发布时间</td>
+							<td>添加人</td>
+							<td>添加时间</td>
+							<td>备注</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<hr>
+		<div class="shadow">
+			<div class="form-group">
+				<span>保存路径：</span>
+				<div class="btn-group">
+					<input type="text" class="form-control" id="save"
+						value="D:/Instance">
+				</div>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default text-right" id="createprerelease">
+					<i class="fa fa-clone " aria-hidden="true"></i> 预发布
+				</button>
+			</div>
+			<div class="form-group">
+				<div class="checkbox">
+					<label> <input type="checkbox" id="createnewversion">同时生成新的客户版本号
+					</label>
+				</div>
+				<button class="btn btn-default text-right" id="createrelease">
+					<i class="fa fa-clipboard " aria-hidden="true"></i>发布
+				</button>
+			</div>
+			<div class="form-group" id="downshow">
+				<div class="progress progress-striped active">
+					<div class="progress-bar" role="progressbar" aria-valuemin="0"
+						aria-valuemax="100" id="progressshow">
+						<!-- <span id="numbershow"></span> -->
+					</div>
+				</div>
+				<button class="btn btn-default text-right" id="cancel">取消生成</button>
+			</div>
+		</div>
+	</div>
+	<!-- 模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加客户</h4>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/addcustomer}" method="get" id="kh">
+						<div class="form-group">
+							<label for="name">客户编号</label> <input type="text"
+								class="form-control" id="khaddnumber" name="khaddnumber"
+								placeholder="请输入编号">
+						</div>
+						<div class="form-group">
+							<label for="name">客户名称</label> <input type="text"
+								class="form-control" id="khaddname" name="khaddname"
+								placeholder="请输入名称">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="khsubmit">提交更改</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加模块</h4>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/addmk}" method="get" id="mk">
+						<div class="form-group">
+							<label for="name">模块</label><br> <select title="请选择模块"
+								class="selectpicker" data-style="btn-default" id="three"
+								data-actions-box="true" name="addnv" multiple
+								data-live-search="true" data-width="100%"
+								data-selected-text-format="count > 2">
+							</select>
+						</div>
+						<div class="form-group">
+							<input type="hidden" name="addpath" class="form-control"
+								id="addpath">
+						</div>
+						<div class="form-group">
+							<label for="name">指定集成人</label> <input type="text"
+								name="addmkuser" class="form-control" id="addmkuser"
+								placeholder="请输入指定集成人">
+						</div>
+						<div class="form-group">
+							<label for="name">指定集成时间</label>
+							<div class='input-group date' id='datetimepicker1'
+								data-date-format="yyyy-mm-dd">
+								<input type='text' class="form-control" id="addtime"
+									name="addtime" placeholder="请选择时间" /> <span
+									class="input-group-addon"> <span
+									class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name">备注</label> <input type="text"
+								class="form-control" id="addmkuserbz" name="addmkuserbz"
+								placeholder="请输入备注">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="mksubmit">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+	<div class="modal fade" id="yufabu" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">预发布</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">正在准备生成，请耐心等待。。。</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="fabu" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">发布</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">正在准备生成，请耐心等待。。。</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="finish" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">生成结束</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">生成包结束</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+</body>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script th:src="@{/js/moment-with-locales.js}"></script>
+<script th:src="@{/js/jquery.caret.min.js}"></script>
+<script th:src="@{/js/jquery.tag-editor.js}"></script>
+<script th:src="@{/js/jquery.tag-editor.min.js}"></script>
+<script th:src="@{/js/toastr.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	$(function() {
+		<!--设置保存路径-->
+		 var vdefault = $('#save').val();  
+		 $('#save').focus(function() {  
+		            //获得焦点时，如果值为默认值，则设置为空  
+		            if ($(this).val() == vdefault) {  
+		                $(this).val("");  
+		            }  
+		        });  
+		    $('#save').blur(function() {  
+		            //失去焦点时，如果值为空，则设置为默认值  
+		            if ($(this).val()== "") {  
+		                $(this).val(vdefault); ;  
+		            }  
+		        });  
+		<!--设置toast-->
+		toastr.options = {  
+		        closeButton: true,  
+		        positionClass: "toast-top-right",  
+		        showDuration: "100",  
+		        hideDuration: "400", 
+		        timeOut: "1200",
+		        showMethod: "fadeIn",  
+		        hideMethod: "fadeOut"  
+		};  
+		<!--首次进入index初始化数据-->
+		$("#ms").selectpicker('refresh');
+		var data = [[${customers}]];
+		if (data!=null) {
+			for (var i = 0; i < data.length; i++) {
+				$("#customer").append("<option value='"+data[i]+"'>"+data[i]+"</option>");
+			}
+		}
+		$("#customer").selectpicker('refresh');
+		var data2 = [[${paths}]];
+		if (data2!=null) {
+		for (var j = 0; j < data2.length; j++) {
+			$("#versionnum").append("<option value='"+(j+1)+"'>"+data2[j]+"</option>");
+		}
+		$("#versionnum").selectpicker('refresh');
+		}
+		var data3 = [[${patterns}]];
+		if (data3!=null) {
+			for (var k = 0; k < data3.length; k++) {
+				var pattern = data3[k];
+				var arr = new Array();
+				arr=pattern.split(',');
+				$('#dmklb tbody'). append('<tr><td><input type="checkbox" name="checkItem" id="checkItem"/></td><td>'
+						+arr[0]+'</td><td>'
+						+arr[1]+'</td><td>'+arr[2]+'</td><td>'
+						+arr[3]+'</td><td>'+arr[4]+'</td><td>'
+						+arr[5]+'</td></tr>');
+			}
+		}
+		var data4 = [[${paths1}]];
+		if (data4!=null) {
+		for (var m = 0; m < data4.length; m++) {
+			$("#second").append("<option value='"+(m+1)+"'>"+data4[m]+"</option>");
+		}
+		}
+		var data5 = [[${lj}]];
+		if (data5!=null) {
+			$("#lj").val(data5);
+		}
+		var localcustomerversion = [[${localcustomerversion}]];
+		var localcustomer = [[${localcustomer}]];
+		var localms = [[${localms}]];
+		var localversionnum = [[${localversionnum}]];
+		var locallj = [[${locallj}]];
+		if (localcustomer!=null) {
+			if (localcustomerversion=="请选择版本"||localcustomerversion==""||localcustomerversion==null) {
+				if (localcustomer=="请选择客户"||localcustomer=="") {
+					$("#customer").selectpicker('val', localcustomer);
+					$("#customerversion").selectpicker('val', localcustomerversion);
+				}else{
+					$("#customer").selectpicker('val', localcustomer);
+					loaduser();
+					$("#customerversion").selectpicker('text', "请选择版本");
+					loadtemp();
+				}
+				if (localms!=null) {
+					$("#ms").selectpicker('val', localms);
+				}
+				if (localversionnum!=null) {
+					$("#versionnum").selectpicker('val', localversionnum);
+				}
+				if (locallj!=null) {
+					$("#lj").val(locallj);
+				}
+			}else{
+				$("#customer").selectpicker('val',localcustomer);
+				$("#customer").selectpicker("refresh");
+				loaduser();
+				$("#customerversion").selectpicker('val', localcustomerversion);
+				$("#customerversion").selectpicker("refresh");
+				loadtemp();
+			}
+		}
+		<!--退出-->
+		$("#logout").on('click', function() {
+			$.ajax({
+				url:"/logout",
+				success : function(data) {
+					window.location.href="/index";
+					toastr.success("退出成功!");
+				}
+			});
+		});
+		<!--在thead中添加一个勾选框-->
+		var $thr = $('#dmklb thead tr');
+		var $checkAllTh = $('<td><input type="checkbox" id="checkAll" name="checkAll" /></td>');
+		$thr.prepend($checkAllTh);
+		<!--勾选框监听-->
+		($('#dmklb thead tr').find('input')).on('click', function(event) {
+			$('#dmklb tbody tr').find('input').prop('checked',$(this).prop('checked'));
+			if ($(this).prop('checked')) {
+				$('#dmklb tbody tr').find('input').parent().parent().addClass('warning');
+			} else{
+				$('#dmklb tbody tr').find('input').parent().parent().removeClass('warning');
+			}
+			event.stopPropagation();
+		});
+		$("#checkAll").on('click', function() {
+			$(this).find('input').click();
+		});
+		$('#dmklb tbody').on('click',"input", function(event) {
+			$(this).parent().parent().toggleClass('warning');
+			($('#dmklb thead tr').find('input')).prop('checked',(($('#dmklb tbody tr').find('input:checked')).length) == ($('#dmklb tbody tr').length) ? true : false);
+			event.stopPropagation();
+		});
+		$('#dmklb tbody ').on('click',"tr", function() {
+			$(this).find('input').click();
+		});
+		<!--隐藏增量生成时的多选框-->
+		$("#hidecheck").css('display', 'none');
+		<!--提交添加客户的请求-->
+		$("#khsubmit").click(function() {
+			$.ajax({
+				url : "/addkh",
+				data : $('#kh').serialize(),
+				success : function(data) {
+					var name = $('#khaddname').val();
+					var number = $('#khaddnumber').val();
+					var newcustomer = number + "_" + name;
+					$("#customer").append("<option value='"+newcustomer+"'>"+newcustomer+"</option>");
+					$('#customer').selectpicker('refresh');
+					$('#kh')[0].reset();
+					$('#myModal').modal('hide');
+					toastr.success("添加成功!");
+				},
+			     error : function() {
+			    	 toastr.error("error!");
+			     }
+			});
+		});
+		<!--维护依赖时保存记录-->
+		$("#gotodepena").click(function() {
+			var customer = $("#customer").val();
+			var customerversion = $("#customerversion").val();
+			var ms = $("#ms").val();
+			var lj = $("#lj").val();
+			var versionnum = $("#versionnum").val();
+			$(this).attr("href","gotodepen?customer="+customer+"&customerversion="+customerversion+"&ms="+ms+"&lj="+lj+"&versionnum="+versionnum);
+		});
+		<!--处理添加模块点击-->
+		$("#addmkbtn").click(function() {
+			var one= $("#one  option:selected").text();
+			var second= $("#second  option:selected").text();
+			var path = one+'/'+second;
+			$("#three").empty();
+			$.ajax({
+				url :"/loadmk",
+				data:{path:path},
+				success:loadmk,
+			});
+		});
+		<!--模块点击确定-->
+		$('#confirm').click(function() {
+			if ($("#customer").val()==0) {
+				toastr.warning("请先选择用户!");
+				return ;
+			}
+			if ($("#ms").val()==0) {
+				toastr.warning("请先选择模式!");
+				return ;
+			}
+			if ($("#lj").val()==0) {
+				toastr.warning("请先填写程序路径!");
+				return ;
+			}
+			if ($("#ms").val()==2) {
+				if ($("#versionnum").val()==0) {
+					toastr.warning("请先选择主版本号!");
+					return ;
+				}
+			}
+			var arr = new Array();
+			var check=$('#dmklb tbody tr');
+			check.each(function(){
+				if($(this).children("td").find("input:checkbox").is(":checked"))
+				{
+					var content = $(this).children("td").eq(1).text()
+					+'-'+$(this).children("td").eq(2).text()
+					+'-'+$(this).children("td").eq(3).text()
+					+'-'+$(this).children("td").eq(4).text()
+					+'-'+$(this).children("td").eq(5).text()
+					+'-'+$(this).children("td").eq(6).text();
+					arr.push(content);
+					$(this).remove();   
+				}
+			});
+			 $.ajax({
+				url : "/confirmmk",
+				data : {arr:arr.toString(),customer:$("#customer  option:selected").text(),ms:$("#ms").val(),lj:$("#lj").val(),versionnum:$("#versionnum").val()},
+				success : function(data) {
+					var tr=$('#mklb tbody tr');
+						tr.each(function(){
+							tr.remove();
+					});
+					for (var i = 1; i < parseInt(data['size'])+1; i++) {
+						var modular=data['modular'+i];
+						var arr = new Array();
+						arr=modular.split('|');
+						$('#mklb tbody'). append('<tr><td><a id="delete" href="/deletemk" th:href="@{/deletemk}" th:attr="name='+arr[0]+',version='+arr[3]+'"'+
+						'><i class="fa fa-times"></i></a></td><td>'+arr[0]+'</td><td>'+arr[1]+
+						'</td><td>'+arr[2]+'</td><td>'+arr[3]+'</td><td>'+arr[4]+
+						'</td><td>'+arr[5]+'</td><td>'+arr[6]+'</td><td>'+arr[7]+
+						'</td><td>'+arr[8]+'</td><td>'+arr[9]+'</td><td>'+arr[10]+
+						'</td><td>'+arr[11]+'</td><td>'+arr[12]+'</td></tr>'); 
+						
+					}
+					$('#dmklb thead tr').find('input').prop('checked',false);
+					changeColor();
+					deletepage();
+					loadmklb();
+					loaddmklb();
+					toastr.success("添加成功!");
+				},
+			     error : function() {
+			    	 toastr.warning("请选择模块!");
+			     }
+			}); 
+		});
+		<!--提交添加模块的请求-->
+		$("#mksubmit").click(function() {
+			if ($('#three').val()==""||$('#three').val()==null) {
+				toastr.warning("请选择模块!");
+				return ;
+			}
+			if ($('#addmkuser').val()==""||$('#addmkuser').val()==null) {
+				toastr.warning("请填写集成人!");
+				return;
+			}
+			if ($('#addtime').val()==""||$('#addtime').val()==null) {
+				toastr.warning("请选择集成时间!");
+				return;
+			}
+			if ($('#addmkuserbz').val()==""||$('#addmkuserbz').val()==null) {
+				$('#addmkuserbz').val("无");
+			}
+			var strings = $('#three').val()+"|"+$('#addpath').val()+"|"+
+					$('#addmkuser').val()+"|"+$('#addtime').val()+"|"+$('#addmkuserbz').val();
+			var mkjson = JSON.stringify(strings);
+					$.ajax({
+						url : "/addmk",
+						data : {mkjson: mkjson},
+						success : function(data) {
+							$('#mk')[0].reset();
+							$('#myModal1').modal('hide');
+							var tr = $('#dmklb tbody tr');
+							tr.each(function(){
+								$(this).remove();
+							});
+							for (var i = 0; i < data.length; i++) {
+								var mk = data[i];
+								var arr = new Array();
+								arr = mk.split(',');
+								$('#dmklb tbody'). append('<tr><td><input type="checkbox" name="checkItem" id="checkItem"/></td><td>'
+										+arr[0]+'</td><td>'+arr[1]+'</td><td>'+arr[2]+'</td><td>'
+										+arr[3]+'</td><td>'+arr[4]+'</td><td>'+arr[5]+'</td></tr>');
+							}
+							toastr.success("添加成功!");
+						},
+					     error : function() {
+					    	 toastr.error("error!");
+					     }
+					});
+				});
+		<!--当选择用户后加载相应信息-->
+		$('#customer').on('change', function() {
+			$.ajax({
+				url : "/loaduser",
+				data : {customer:$("#customer  option:selected").text(),flag:0},
+				success : function(data) {
+						deleteall();
+						deleteversion();
+						if (data.length==0) {
+							$('#customerversion').prop('disabled', true);
+							$('#customerversion').selectpicker('refresh');
+							deletepage();
+							toastr.warning("该用户没有历史版本!");
+						}else{
+							$('#customerversion').prop('disabled', false);
+							$('#customerversion').selectpicker('refresh');
+							for (var i = 0; i < data.length; i++) {
+								$("#customerversion").append("<option value='"+data[i]+"'>"+data[i]+"</option>");
+								$('#customerversion').selectpicker('refresh');
+							}
+						}
+				},
+			     error : function() {
+			    	 toastr.error("error!");
+			     }
+			});
+		});
+		function loaduser() {
+			$.ajax({
+				url : "/loaduser",
+				async: false,
+				data : {customer:$("#customer  option:selected").text(),flag:1},
+				success : function(data) {
+						deleteall();
+						deleteversion();
+						if (data.length==0) {
+							$('#customerversion').prop('disabled', true);
+							$('#customerversion').selectpicker('refresh');
+							deletepage();
+							toastr.warning("该用户没有历史版本!");
+						}else{
+							$('#customerversion').prop('disabled', false);
+							$('#customerversion').selectpicker('refresh');
+							for (var i = 0; i < data.length; i++) {
+								$("#customerversion").append("<option value='"+data[i]+"'>"+data[i]+"</option>");
+								$('#customerversion').selectpicker('refresh');
+							}
+						}
+				},
+			     error : function() {
+			    	 toastr.error("error!");
+			     }
+			});
+		}
+		$('#customerversion').on('change',function(){
+			if ($('#customerversion').val()==0) {
+				return ;
+			}
+			/* if ($("#customerversion  option:selected").text()=="请选择版本") {
+				deleteall();
+				toastr.warning("请选择版本!");
+				return ;
+			} */
+			$.ajax({
+				url : "/loaddata",
+				data : {version:$("#customerversion  option:selected").text(),customer:$("#customer  option:selected").text()},
+				success : function(data) {
+						deleteall();
+						if (typeof(data['grampath']) != "undefined") {
+							$("#lj").val(data['grampath']);
+						}
+						$('#ms').selectpicker('val', data['pattern']);
+						$('#versionnum').selectpicker('val', data['versionnumber']);
+						for (var i = 1; i < parseInt(data['size'])+1; i++) {
+							var modular=data['modular'+i];
+							var arr = new Array();
+							arr=modular.split('|');
+							$('#mklb tbody'). append('<tr><td ><a class="delete" th:attr="'+ arr[0] + 
+							','+arr[1]+','+arr[2]+','+arr[3]+','+arr[4]+','+arr[5]+
+							','+arr[6]+','+arr[7]+','+arr[8]+','+arr[9]+','+arr[10]+','+arr[11]+','+arr[12]+' "'+
+							'><i class="fa fa-times" id="deleteitem"></i></a></td><td>'+arr[0]+'</td><td>'+arr[1]+
+							'</td><td>'+arr[2]+'</td><td>'+arr[3]+'</td><td>'+arr[4]+
+							'</td><td>'+arr[5]+'</td><td>'+arr[6]+'</td><td>'+arr[7]+
+							'</td><td>'+arr[8]+'</td><td>'+arr[9]+'</td><td>'+arr[10]+
+							'</td><td>'+arr[11]+'</td><td>'+arr[12]+'</td></tr>'); 
+							
+						}
+						deletepage();
+						loadmklb();
+						loaddmklb();
+						changeColor();
+						toastr.info("加载成功!");
+				},
+			     error : function() {
+			    	 toastr.error("error!");
+			     }
+			});
+		});
+		function loadtemp() {
+			$.ajax({
+				url : "/loadtemp",
+				success : function(data) {
+						deleteall();
+						$("#lj").val(data['grampath']);
+						$('#ms').selectpicker('val', data['pattern']);
+						$('#versionnum').selectpicker('val', data['versionnumber']);
+						for (var i = 1; i < parseInt(data['size'])+1; i++) {
+							var modular=data['modular'+i];
+							var arr = new Array();
+							arr=modular.split('|');
+							$('#mklb tbody'). append('<tr><td ><a class="delete" th:attr="'+ arr[0] + 
+									','+arr[1]+','+arr[2]+','+arr[3]+','+arr[4]+','+arr[5]+
+									','+arr[6]+','+arr[7]+','+arr[8]+','+arr[9]+','+arr[10]+','+arr[11]+','+arr[12]+' "'+
+									'><i class="fa fa-times" id="deleteitem"></i></a></td><td>'+arr[0]+'</td><td>'+arr[1]+
+									'</td><td>'+arr[2]+'</td><td>'+arr[3]+'</td><td>'+arr[4]+
+									'</td><td>'+arr[5]+'</td><td>'+arr[6]+'</td><td>'+arr[7]+
+									'</td><td>'+arr[8]+'</td><td>'+arr[9]+'</td><td>'+arr[10]+
+									'</td><td>'+arr[11]+'</td><td>'+arr[12]+'</td></tr>'); 
+						}
+						deletepage();
+						loadmklb();
+						loaddmklb();
+						changeColor();
+				},
+			     error : function() {
+			    	 toastr.error("error!");
+			     }
+			});
+		}
+		<!--确认删除处理-->
+		$('#deleteconfirm').click(function() {
+			var trd = $('#mklb tbody tr td:nth-child(3)');
+			trd.each(function(){
+				var data = $(this).parent().children("td:eq(0)").children("a").attr("th:attr");
+				if ($(this).text()=='删除'||$(this).text()=='新增删除') {
+					$(this).parent().remove();
+					$.ajax({
+						url : "/confirmdeletemk",
+						data : {data:data},
+						success : function(data) {
+						},
+					});
+				}else if ($(this).text()=='修改删除') {
+					$(this).text("");
+					var data1 = $(this).parent().children("td:eq(0)").children("a").attr("th:attr");
+					var newattr = data1.replace("修改删除","");
+					$(this).parent().children("td:eq(0)").children("a").attr("th:attr",newattr);
+					$.ajax({
+						url : "/confirmdeletemk",
+						data : {data:data},
+						success : function(data) {
+						},
+					});
+				}
+			});
+		});
+		<!--点击删除标识操作-->
+		$("#mklb").on("click", ".delete", function() {
+				$(this).parent().parent().remove();
+				$.ajax({
+					url : "/deletemk",
+					data : {data:$(this).attr("th:attr")},
+					success : function(data) {
+						var modular = data;
+						var arr = new Array();
+						arr=modular.split(',');
+						if (arr[1]=="修改删除") {
+							$('#mklb tbody'). append('<tr><td ><a class="delete" th:attr="'+ arr[0] + 
+									','+arr[1]+','+arr[2]+','+arr[3]+','+arr[4]+','+arr[5]+
+									','+arr[6]+','+arr[7]+','+arr[8]+','+arr[9]+','+arr[10]+','+arr[11]+','+arr[12]+' "'+
+									'><i class="fa fa-times" id="deleteitem"></i></a></td><td>'+arr[0]+'</td><td>'+arr[1]+
+									'</td><td>'+arr[2]+'</td><td>'+arr[3]+'</td><td>'+arr[4]+
+									'</td><td>'+arr[5]+'</td><td>'+arr[6]+'</td><td>'+arr[7]+
+									'</td><td>'+arr[8]+'</td><td>'+arr[9]+'</td><td>'+arr[10]+
+									'</td><td>'+arr[11]+'</td><td>'+arr[12]+'</td></tr>'); 
+							changeColor();
+							return ;
+						}else{
+							$('#mklb tbody'). append('<tr><td ><a class="delete" th:attr="'+ arr[0] + 
+									','+arr[1]+','+arr[2]+','+arr[3]+','+arr[4]+','+arr[5]+
+									','+arr[6]+','+arr[7]+','+arr[8]+','+arr[9]+','+arr[10]+','+arr[11]+','+arr[12]+' "'+
+									'><i class="fa fa-times" id="deleteitem"></i></a></td><td>'+arr[0]+'</td><td>'+arr[1]+
+									'</td><td>'+arr[2]+'</td><td>'+arr[3]+'</td><td>'+arr[4]+
+									'</td><td>'+arr[5]+'</td><td>'+arr[6]+'</td><td>'+arr[7]+
+									'</td><td>'+arr[8]+'</td><td>'+arr[9]+'</td><td>'+arr[10]+
+									'</td><td>'+arr[11]+'</td><td>'+arr[12]+'</td></tr>'); 
+							changeColor();
+						}
+						
+					},
+				});
+			});
+		<!--设置模式改变时勾选框的显示隐藏-->
+		$('#ms').on('change', function() {
+			if ($("#ms").val() == 1) {
+				$("#updateall").prop("checked",false);
+				$("#hidecheck").css('display', 'block');
+				
+			} else {
+				$("#hidecheck").css('display', 'none');
+			}
+		});
+		<!--设置时间控件-->
+		$('#datetimepicker1').datetimepicker({
+			minView: "month",
+			format:'yyyy-mm-dd',
+		    locale: moment.locale('zh-cn'),
+		    initialDate: new Date(),
+		    autoclose: true,
+		    todayBtn: true,
+		});
+		var $thr = $('#dmklb thead tr');
+		var $tbr = $('#dmklb tbody tr');
+		var $checkAll = $thr.find('input');
+		function changeColor() {
+			var td = $('#mklb tbody tr td:nth-child(3)');
+			td.each(function(){
+				if ($(this).text()=='新增') {
+					$(this).attr("style","color:green;");
+				}else if ($(this).text()=='修改') {
+					$(this).attr("style","color:yellow;");
+				}else if ($(this).text()=='删除') {
+					$(this).attr("style","color:red;");
+				}else if ($(this).text()=='新增删除') {
+					$(this).attr("style","color:blue;");
+				}else if ($(this).text()=='修改删除') {
+					$(this).attr("style","color:pink;");
+				}
+			});
+		}
+		function deleteversion(){
+			var versionselect = $("#customerversion option:not(:first)");
+			versionselect.each(function() {
+				$(this).remove();
+			});
+		}
+		<!--加载待添加模块-->
+		function loadmk(data) {
+			var one= $("#one  option:selected").text();
+			var second= $("#second  option:selected").text();
+			var path = one+'/'+second;
+			$('#addpath').val(path);
+			 for (var i = 0; i < data.length; i++) {
+				$("#three").append("<option value='"+data[i]+"'>"+data[i]+"</option>");
+			 } 
+			 $("#three").selectpicker('refresh');
+			 $("#myModal1").modal('show');
+		}
+		function deleteall() {
+			$('#ms').selectpicker('val', 0);
+			$('#versionnum').selectpicker('val', 0);
+			var tr = $('#mklb tbody tr');
+			tr.each(function(){
+				$(this).remove();
+			});
+		}
+		function loaddmklb() {
+			var $table = $('#dmklb');
+			var currentPage = 0; //当前页默认值为0 
+			var pageSize = 10; //每一页显示的数目 
+			$table.bind('paging', function() {
+				$table.find('tbody tr').hide().slice(currentPage * pageSize, (currentPage + 1) * pageSize).show();
+			});
+			var sumRows = $table.find('tbody tr').length;
+			var sumPages = Math.ceil(sumRows / pageSize); //总页数 
+
+			var $pager = $('<div class="page"></div>'); //新建div，放入a标签,显示底部分页码 
+			var pageIndex = 0;
+			for(pageIndex; pageIndex < sumPages; pageIndex++) {
+				$('<a href="#" class="num" rel="external nofollow" id="pageStyle" onclick="changCss(this)"><span>' + (pageIndex + 1) + '</span></a>').bind("click", {
+					"newPage": pageIndex
+				}, function(event) {
+					currentPage = event.data["newPage"];
+					$table.trigger("paging");
+					//触发分页函数 
+				}).appendTo($pager);
+				$pager.append(" ");
+			}
+			$pager.insertAfter($table);
+			$table.trigger("paging");
+			//默认第一页的a标签效果 
+			var $pagess = $('#pageStyle');
+			if ($pagess.length>0) {
+			$pagess[0].style.backgroundColor = "#eee";
+			$pagess[0].style.color = "#000000";
+			}
+		}
+		//a链接点击变色，再点其他回复原色 
+		
+		function deletepage(){
+			var deletepage = $('body .page');
+			deletepage.each(function(){
+				$(this).remove();
+			});
+		}
+		function loadmklb() {
+			var $table1 = $('#mklb');
+			var currentPage1 = 0; //当前页默认值为0 
+			var pageSize1 = 10; //每一页显示的数目 
+			$table1.bind('paging', function() {
+				$table1.find('tbody tr').hide().slice(currentPage1 * pageSize1, (currentPage1 + 1) * pageSize1).show();
+			});
+			var sumRows1 = $table1.find('tbody tr').length;
+			var sumPages1 = Math.ceil(sumRows1 / pageSize1); //总页数 
+
+			var $pager1 = $('<div class="page"></div>'); //新建div，放入a标签,显示底部分页码 
+			var pageIndex1 = 0;
+			for(pageIndex1; pageIndex1 < sumPages1; pageIndex1++) {
+				$('<a href="#" class="mknum" rel="external nofollow" id="pageStyle1" onclick="changCss1(this)"><span>' + (pageIndex1 + 1) + '</span></a>').bind("click", {
+					"newPage": pageIndex1
+				}, function(event) {
+					currentPage1 = event.data["newPage"];
+					$table1.trigger("paging");
+					//触发分页函数 
+				}).appendTo($pager1);
+				$pager1.append(" ");
+			}
+			$pager1.insertAfter($table1);
+			$table1.trigger("paging");
+			//默认第一页的a标签效果 
+			var $pagess1 = $('#pageStyle1');
+			if ($pagess1.length>0) {
+				$pagess1[0].style.backgroundColor = "#eee";
+				$pagess1[0].style.color = "#000000";
+			}
+			
+		}
+		deletepage();
+		loaddmklb();
+	});
+	function changCss(obj) {
+		var arr = $(".num");
+		for(var i = 0; i < arr.length; i++) {
+			if(obj == arr[i]) { //当前页样式 
+				obj.style.backgroundColor = "#eee";
+				obj.style.color = "#000000";
+			} else {
+				arr[i].style.color = "";
+				arr[i].style.backgroundColor = "";
+			}
+		}
+	}
+	function changCss1(obj) {
+		var arr = $(".mknum");
+		for(var i = 0; i < arr.length; i++) {
+			if(obj == arr[i]) { //当前页样式 
+				obj.style.backgroundColor = "#eee";
+				obj.style.color = "#000000";
+			} else {
+				arr[i].style.color = "";
+				arr[i].style.backgroundColor = "";
+			}
+		}
+	}
+</script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+	var currentIndex=0;
+	var all = 0;
+	$('#downshow').css('display','none');
+	$('.required').before('<span style="color:red">*</span>'); 
+	$('body').on('click',"#updateall", function() {
+		$.ajax({
+			url : "/hasallversion",
+			data:{"customer":$("#customer").val()},
+			success: function (data) {
+				if (data=="") {
+					toastr.warning("该用户没有全量配置文件");
+					$("#updateall").prop("checked",false);
+				}
+			}
+		});
+	});
+	$('body').on('click',"#createprerelease", function() {
+		var mklbtr = $("#mklb tbody tr");
+		var modulars = new Array();
+		mklbtr.each(function(){
+			var modular =$(this).find('td').eq(1).text()+"|"+
+			$(this).find('td').eq(2).text()+"|"+
+			$(this).find('td').eq(3).text()+"|"+
+			$(this).find('td').eq(4).text()+"|"+
+			$(this).find('td').eq(5).text()+"|"+
+			$(this).find('td').eq(6).text()+"|"+
+			$(this).find('td').eq(7).text()+"|"+
+			$(this).find('td').eq(8).text()+"|"+
+			$(this).find('td').eq(9).text()+"|"+
+			$(this).find('td').eq(10).text()+"|"+
+			$(this).find('td').eq(11).text()+"|"+
+			$(this).find('td').eq(12).text()+"|"+
+			$(this).find('td').eq(13).text();
+			modulars.push(modular);
+		});
+		var updateall = 0;
+		var msflag = 0;
+		if ($("#ms").val()==2) {
+			if ($("#versionnum").val()==0) {
+				toastr.warning("请先选择主版本号!");
+				return ;
+			}
+		}
+		if ($("#customer").val()==null||$("#ms").val()==0
+				||$("#lj").val()==null) {
+			toastr.warning("请先选择必要信息");
+			return;
+		}else if (mklbtr.length==0) {
+			toastr.warning("请添加要发布的模块");
+			return;
+		}else{
+			var createnewversion = 0;
+			if ($("#createnewversion").prop("checked")) {
+				createnewversion = 1;
+			}
+			if ($("#ms").val()==1) {
+				msflag = 1;
+				if ($("#updateall").prop("checked")) {
+					updateall = 1;
+				}
+			}else{
+				msflag = 2;
+			}
+		}
+		$('#yufabu').modal('show');
+		$('#downshow').css('display','block');
+		var modularto=JSON.stringify(modulars);
+		$.ajax({
+			url : "/createprerelease",
+			data:{"updateall":updateall,
+				"createnewversion":createnewversion,
+				"msflag":msflag,
+				"modulars":modularto,
+				"customer":$("#customer").val(),
+				"ms":$("#ms").val(),
+				"lj":$("#lj").val(),
+				"versionnum":$('#versionpre').val()+'/'+$("#versionnum option:selected").text(),
+				"versionval":$('#versionnum').val()
+				},
+			success: function (data) {
+				$('#yufabu').modal('hide');
+				down(data);
+				all=data.length;
+			}
+		});
+	});
+	$('body').on('click',"#createrelease", function() {
+		var mklbtr = $("#mklb tbody tr");
+		var modulars = new Array();
+		mklbtr.each(function(){
+			var modular =$(this).find('td').eq(1).text()+"|"+
+			$(this).find('td').eq(2).text()+"|"+
+			$(this).find('td').eq(3).text()+"|"+
+			$(this).find('td').eq(4).text()+"|"+
+			$(this).find('td').eq(5).text()+"|"+
+			$(this).find('td').eq(6).text()+"|"+
+			$(this).find('td').eq(7).text()+"|"+
+			$(this).find('td').eq(8).text()+"|"+
+			$(this).find('td').eq(9).text()+"|"+
+			$(this).find('td').eq(10).text()+"|"+
+			$(this).find('td').eq(11).text()+"|"+
+			$(this).find('td').eq(12).text()+"|"+
+			$(this).find('td').eq(13).text();
+			modulars.push(modular);
+		});
+		var updateall = 0;
+		var msflag = 0;
+		if ($("#ms").val()==2) {
+			if ($("#versionnum").val()==0) {
+				toastr.warning("请先选择主版本号!");
+				return ;
+			}
+		}
+		if ($("#customer").val()==null||$("#ms").val()==0
+				||$("#lj").val()==null) {
+			toastr.warning("请先选择必要信息");
+			return;
+		}else if (mklbtr.length==0) {
+			toastr.warning("请添加要发布的模块");
+			return;
+		}else{
+			var createnewversion = 0;
+			if ($("#createnewversion").prop("checked")) {
+				createnewversion = 1;
+			}
+			if ($("#ms").val()==1) {
+				msflag = 1;
+				if ($("#updateall").prop("checked")) {
+					updateall = 1;
+				}
+			}else{
+				msflag = 2;
+			}
+		}
+		$('#fabu').modal('show');
+		$('#downshow').css('display','block');
+		var modularto=JSON.stringify(modulars);
+		$.ajax({
+			url : "/createrelease",
+			data:{"updateall":updateall,
+				"createnewversion":createnewversion,
+				"msflag":msflag,
+				"modulars":modularto,
+				"customer":$("#customer").val(),
+				"ms":$("#ms").val(),
+				"lj":$("#lj").val(),
+				"versionnum":$('#versionpre').val()+'/'+$("#versionnum option:selected").text(),
+				"versionval":$('#versionnum').val(),
+				},
+			success: function (data) {
+					$('#fabu').modal('hide');
+					down(data);
+					all=data.length;
+			}
+		});
+	});
+	function down(data) {
+		if (currentIndex==data.length) {
+			currentIndex = 0;
+			all=0;
+			toastr.success("生成完成");
+			$('#downshow').css('display','none');
+			$("#progressshow").css("width", "0%").text("0%");
+			$('#finish').modal('show');
+			return ;
+		}
+		var paths1 = data;
+		var path = data[currentIndex];
+		$.ajax({
+			url : "/downfile",
+			data:{path:path,localpath:$('#save').val()},
+			success:function (data) {
+				console.log("ajax返回处理中currentIndex="+currentIndex);
+				if (data=="error") {
+					toastr.error(path+"文件生成失败");
+					currentIndex++;
+					var width = (currentIndex/paths1.length) * 100 ;
+					width =	width.toFixed(2);
+					$("#progressshow").css("width",width + "%").text(width + "%");
+					down(paths1);
+				}else if (data=="stop") {
+					toastr.warning("取消成功");
+					$('#downshow').css('display','none');
+					$("#progressshow").css("width", "0%").text("0%");
+					currentIndex = 0;
+					all=0;
+				}else {
+					currentIndex++;
+					var width = (currentIndex/paths1.length) * 100 ;
+					width =	width.toFixed(2);
+					$("#progressshow").css("width",width + "%").text(width + "%");
+					down(paths1);
+				}
+			}
+		});
+	}
+	$('body').on('click','#cancel',function(){
+		currentIndex = all+1;
+	});
+});
+</script>
+</html>

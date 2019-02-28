@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>配置管理发布</title>
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+<link th:href="@{/css/font-awesome.css}" rel="stylesheet">
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<!-- bootstrap tags CSS -->
+<link th:href="@{/css/jquery.tag-editor.css}" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap-select.css}" />
+<link th:href="@{/css/bootstrap-datetimepicker.min.css}"
+	rel="stylesheet">
+<link th:href="@{/css/toastr.css}" rel="stylesheet">
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<h2 style="text-align: center;">版本配置管理工具</h2>
+		<hr>
+		<div class="shadow">
+			<div class="form-group">
+				<h3 style="display: inline-block; padding-right: 20px;">模块依赖关系维护</h3>
+				<button class="btn btn-default text-right" data-toggle="modal"
+					data-target="#myModal" style="margin-bottom: 12px">
+					<i class="fa fa-plus " aria-hidden="true"></i>添加依赖关系
+				</button>
+				<a href="doreturn"><button class="btn btn-default text-right"
+						style="float: right; margin: 10px;">
+						<i class="fa fa-arrow-left " aria-hidden="true"></i>返回
+					</button></a>
+				<button class="btn btn-default text-right" id="ss"
+					style="float: right; margin: 10px;">
+					<i class="fa fa-search " aria-hidden="true"></i>搜索
+				</button>
+				<input type="text" id="filtertxt" class="form-control input-sm"
+					style="width: 200px; display: inline-block; margin: 13px; float: right;" />
+				<table class="table table-striped table-bordered" id="relationship"
+					style="word-break: break-all; word-wrap: break-all;">
+					<thead>
+						<!-- <tr th:colspan="3">
+						<td>							</td>
+					</tr> -->
+						<tr>
+							<td style="width: 300px;">模块版本</td>
+							<td>依赖模块版本</td>
+							<td style="width: 120px;">维护人</td>
+							<td style="width: 150px;">维护时间</td>
+							<td style="width: 60px;">操作</td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- 模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close closebutton"
+						data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加模块依赖关系</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="name">模块</label><br> <select class="selectpicker"
+							data-style="btn-default" data-live-search="true" id="one1"
+							data-width="50%">
+							<option>/FA6.0</option>
+						</select> <select class="selectpicker" data-style="btn-default"
+							data-live-search="true" id="second1" data-width="49%" title="请选择">
+						</select> <select title="请选择模块" class="selectpicker"
+							data-style="btn-default" id="three1" data-actions-box="true"
+							name="three1" data-live-search="true" data-width="100%">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="name">依赖模块选择</label><br> <select
+							class="selectpicker" data-style="btn-default"
+							data-live-search="true" id="one2" data-width="50%">
+							<option>/FA6.0</option>
+						</select> <select class="selectpicker" data-style="btn-default"
+							data-live-search="true" id="second2" data-width="49%" title="请选择">
+						</select> <select title="请选择依赖模块" class="selectpicker"
+							data-style="btn-default" id="three2" data-actions-box="true"
+							name="three2" multiple data-live-search="true" data-width="100%"
+							data-selected-text-format="count > 4">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="name">依赖模块</label><br> <input type="text"
+							class="form-control form-control-tag" id="ylmk" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default closebutton"
+						data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="desubmit">提交更改</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script th:src="@{/js/moment-with-locales.js}"></script>
+<script th:src="@{/js/jquery.caret.min.js}"></script>
+<script th:src="@{/js/jquery.tag-editor.js}"></script>
+<script th:src="@{/js/jquery.tag-editor.min.js}"></script>
+<script th:src="@{/js/toastr.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+		$(function() {
+			$('.form-control-tag').tagEditor({
+		        initialTags: [],
+		        maxTags: 20,
+		        delimiter: ',',
+		        forceLowercase: false,
+		    });
+			<!--首次页面加载数据-->
+			var flag = 0;
+			var editflag = 0;
+			var paths = [[${paths1}]];
+			for (var m = 0; m < paths.length; m++) {
+				$("#second1").append("<option value='"+	m+"'>"+paths[m]+"</option>");
+				$("#second2").append("<option value='"+m+"'>"+paths[m]+"</option>");
+			}
+			var dependences = [[${dependences}]];
+			if(dependences != null) {
+				for(var k = 0; k < dependences.length; k++) {
+					var dependence = dependences[k];
+					var arr = new Array();
+					arr = dependence.split('|');
+					$('#relationship tbody').append('<tr><td>' +
+						arr[0] + '</td><td>' +
+						arr[1] + '</td><td>' + arr[2] + '</td><td>' +
+						arr[3] + '</td><td><a class="edit" th:attr="'+ arr[0] + 
+						'|'+arr[1]+'|'+arr[2]+'|'+arr[3]+' "'+
+						'><i class="fa fa-edit" id="edititem"></i></a>&nbsp&nbsp&nbsp' +
+						'<a class="delete" th:attr="'+ arr[0] + '|'+arr[1]+'|'+arr[2]+'|'+arr[3]+' "'+
+						'><i class="fa fa-times" id="deleteitem"></i></a></td></tr>');
+				}
+			}
+			<!--模块目录切换处理-->
+			$('#second1').on('change', function() {
+				var one= $("#one1  option:selected").text();
+				var second= $("#second1  option:selected").text();
+				var path = one+'/'+second;
+				$("#three1").empty();
+				$.ajax({
+					url :"/loadmk",
+					async:false,
+					data:{path:path},
+					success:loadmk1,
+				});
+			});
+			<!--依赖模块目录切换处理-->
+			$('#second2').on('change', function() {
+				var one= $("#one2  option:selected").text();
+				var second= $("#second2  option:selected").text();
+				var path = one+'/'+second;
+				$("#three2").empty();
+				$.ajax({
+					url :"/loadmk",
+					data:{path:path},
+					success:loadmk2,
+				});
+			});
+			<!--模块目录切换后加载数据-->
+			function loadmk1(data) {
+				 for (var i = 0; i < data.length; i++) {
+					$("#three1").append("<option value='"+data[i]+"'>"+data[i]+"</option>");
+				 } 
+				 $("#three1").selectpicker('refresh');
+			}
+			<!--依赖模块目录切换后加载数据-->
+			function loadmk2(data) {
+				 for (var i = 0; i < data.length; i++) {
+					$("#three2").append("<option value='"+data[i]+"'>"+data[i]+"</option>");
+				 } 
+				 $("#three2").selectpicker('refresh');
+			}
+			<!--将数据加载到input中-->
+			$('#three2').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+				  $('#three2').selectpicker('refresh');
+				  var data = "";
+				  data=$('#three2').val();
+				  var arr = new Array();
+				  arr = data.toString().split(',');
+				  var arr1 = new Array();
+				  arr1 = previousValue.toString().split(',');
+				  if (previousValue=="") {
+					arr1.length = 0;
+					}
+				  var one = $('#one2').val();
+				  var second = $('#second2').find("option:selected").text();
+				  for (var i = arr1.length; i < arr.length; i++) {
+					$('#ylmk').tagEditor('addTag', one+"/"+second+"/"+arr[i]);
+					}
+			});
+			<!--添加依赖提交处理-->
+			$("#desubmit").click(function() {
+				var mk =  $('#one1').val()+"/"+ $('#second1').find("option:selected").text()+"/"+$('#three1').find("option:selected").text();
+				var mk2 = $("#ylmk").val();
+				if ($('#three1').find("option:selected").text()=="") {
+					toastr.warning("请选择模块");
+					return;
+				}
+				if ($('#ylmk').val()=="") {
+					toastr.warning("请选择依赖模块");
+					return;
+				}
+				var exist = 0;
+				var mktr = $('#relationship tbody tr');
+				  mktr.each(function(){
+					  var mktd=$(this).find("td").eq(0).text();
+					  if (mk==mktd) {
+						exist = 1;
+						return;
+					}
+				});
+				if (exist ==1 && flag !=1) {
+					  toastr.warning("该模块已经存在依赖关系");
+					  return;
+				}
+				var strings = mk+"|"+mk2;
+				var mkjson = JSON.stringify(strings);
+				$.ajax({
+					url : "/addrelationship",
+					data : {strings: strings,flag:flag},
+					success : function(data) {
+						var arr = new Array();
+						arr = data.split(",");
+						$('#three1').selectpicker('val', 0);
+						$('#three2').selectpicker('val', 0);
+						$("#one1").attr("disabled",false); 
+						$("#second1").attr("disabled",false); 
+						$("#three1").attr("disabled",false); 
+						var tags = $('#ylmk').tagEditor('getTags')[0].tags;
+					    for (i = 0; i < tags.length; i++) { $('#ylmk').tagEditor('removeTag', tags[i]); }
+						$('#myModal').modal('hide');
+						$('#relationship tbody').append('<tr><td>' +
+							mk + '</td><td>' +
+							mk2 + '</td><td>' + arr[0] + '</td><td>' +
+							arr[1] + '</td><td><a class="edit" th:attr="'+ mk + 
+							'|'+mk2 +'|'+arr[0]+'|'+arr[1]+' "'+
+							'><i class="fa fa-edit" id="edititem"></i></a>&nbsp&nbsp&nbsp' +
+							'<a class="delete" th:attr="'+ mk + '|'+mk2+'|'+arr[0]+'|'+arr[1]+' "'+
+							'><i class="fa fa-times" id="deleteitem"></i></a></td></tr>');
+						if (flag == 1) {
+							toastr.success("修改成功!");
+							var num = parseInt(editflag);
+							var edittr = $('.edit');
+							var deletetr = $('.delete');
+							deletetr.eq(num).trigger("click");
+							edittr.eq(num).parent().parent().remove(); 
+						}else{
+							deletepage();
+							loadrelationship();
+							toastr.success("添加成功!");
+						}
+						
+					}, 
+					error : function() {
+						toastr.error("error!");
+					}
+				});
+			});
+			<!--删除依赖-->
+			$("#relationship").on("click", ".delete", function() {
+				console.log("删除");
+				$(this).parent().parent().remove();
+				$.ajax({
+					url : "/deleteyl",
+					data : {data:$(this).attr("th:attr")},
+					success : function(data) {
+						if (flag != 1) {
+							toastr.info("删除成功!");
+							deletepage();
+							loadrelationship();
+						}else{
+							flag = 0;
+						}
+					},
+				});
+			});
+			<!--编辑依赖-->
+			$("#relationship").on("click", ".edit", function() {
+				editflag=$(".edit").index(this);
+				console.log("编辑");
+				flag = 1;
+				var data = $(this).attr("th:attr");
+				var arr = new Array();
+				arr = data.split("|");
+				var arr1 = new Array();
+				arr1 = arr[0].split("/");
+				var editsecond = $("#myModal #second1 option");
+				editsecond.each(function(){
+					var text = $(this).text();
+					if (text==(arr1[2])) {
+						$('#second1').selectpicker('val', $(this).val());
+					}
+				}); 
+				$("#three1").selectpicker('refresh');
+				var editthree = $("#myModal #three1 option");
+				editthree.each(function(){
+					var text = $(this).text();
+					if (text==(arr1[3])) {
+						$('#three1').selectpicker('val', $(this).val());
+					}
+				}); 
+				var arr1 = new Array();
+				arr1 = arr[1].split(",");
+				for (var i = 0; i < arr1.length; i++) {
+					$('#ylmk').tagEditor('addTag', arr1[i],true);
+				} 
+				$("#one1").attr("disabled","disabled"); 
+				$("#second1").attr("disabled","disabled"); 
+				$("#three1").attr("disabled","disabled"); 
+				$('#myModal').modal('show');
+			});
+			<!--初始化时间控件-->
+			$('#datetimepicker1').datetimepicker({
+				minView: "month",
+				format: 'yyyy-mm-dd',
+				locale: moment.locale('zh-cn'),
+				initialDate: new Date(),
+				autoclose: true,
+				todayBtn: true,
+			});
+			$('body').on('click','.closebutton',function () {
+				$('#three1').selectpicker('val', 0);
+				$('#three2').selectpicker('val', 0);
+				var tags = $('#ylmk').tagEditor('getTags')[0].tags;
+			    for (i = 0; i < tags.length; i++) { 
+			    	$('#ylmk').tagEditor('removeTag', tags[i]); 
+			   		$("ylmk").val("");  
+			    }
+			    $("#one1").attr("disabled",false); 
+				$("#second1").attr("disabled",false); 
+				$("#three1").attr("disabled",false); 
+			});
+			$('#ss').click(function(){
+		        var sstxt=$('#filtertxt').val();
+		       
+		        var tbodytr = $("#relationship tbody tr");
+		       	tbodytr.each(function(){
+		       		if ($(this).css('display')=="table-row") {
+		       			$(this).css('display','none');
+					}
+		        }); 
+		         tbodytr.each(function(){
+		        	var trtd = $(this).children('td').eq(0);
+		        	if (trtd.text().indexOf(sstxt) !=-1) {
+						$(this).show();
+					}
+		        });	
+		         if (sstxt=="") {
+			        	deletepage();
+						loadrelationship();
+						return;
+					}
+		        deletepage();
+		     });
+			function loadrelationship() {
+				var $table = $('#relationship');
+				var currentPage = 0; //当前页默认值为0 
+				var pageSize = 10; //每一页显示的数目 
+				$table.bind('paging', function() {
+					$table.find('tbody tr').hide().slice(currentPage * pageSize, (currentPage + 1) * pageSize).show();
+				});
+				var tbtr = $table.find('tbody tr');
+				var sumRows = tbtr.length;
+				if (sumRows==0) {
+					return;
+				}
+				var sumPages = Math.ceil(sumRows / pageSize); //总页数 
+				var $pager = $('<div class="page"></div>'); //新建div，放入a标签,显示底部分页码 
+				var pageIndex = 0;
+				for(pageIndex; pageIndex < sumPages; pageIndex++) {
+					$('<a href="#" class="num" rel="external nofollow" id="pageStyle" onclick="changCss(this)"><span>' + (pageIndex + 1) + '</span></a>').bind("click", {
+						"newPage": pageIndex
+					}, function(event) {
+						currentPage = event.data["newPage"];
+						$table.trigger("paging");
+						//触发分页函数 
+					}).appendTo($pager);
+					$pager.append(" ");
+				}
+				$pager.insertAfter($table);
+				$table.trigger("paging");
+				//默认第一页的a标签效果 
+				var $pagess = $('#pageStyle');
+				$pagess[0].style.backgroundColor = "#eee";
+				$pagess[0].style.color = "#000000";
+			}
+			function deletepage(){
+				var deletepage = $('body .page');
+				deletepage.each(function(){
+					$(this).remove();
+				});
+			}
+			//a链接点击变色，再点其他回复原色 
+			deletepage();
+			loadrelationship();
+		});
+		function changCss(obj) {
+			var arr = $(".num");
+			for(var i = 0; i < arr.length; i++) {
+				if(obj == arr[i]) { //当前页样式 
+					obj.style.backgroundColor = "#eee";
+					obj.style.color = "#000000";
+				} else {
+					arr[i].style.color = "";
+					arr[i].style.backgroundColor = "";
+				}
+			}
+		}
+	</script>
+</html>
